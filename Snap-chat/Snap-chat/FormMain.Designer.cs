@@ -157,6 +157,7 @@
             this.btnRecord.TabIndex = 5;
             this.btnRecord.Text = "RECORD";
             this.btnRecord.UseVisualStyleBackColor = true;
+            this.btnRecord.Click += new System.EventHandler(this.btnRecord_Click);
             // 
             // btnStop
             // 
@@ -166,6 +167,7 @@
             this.btnStop.TabIndex = 6;
             this.btnStop.Text = "STOP";
             this.btnStop.UseVisualStyleBackColor = true;
+            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
             // 
             // frmMain
             // 
@@ -188,6 +190,7 @@
             this.Controls.Add(this.pnlOne);
             this.Name = "frmMain";
             this.Text = "Snap-chat";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
             this.Load += new System.EventHandler(this.frmMain_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
