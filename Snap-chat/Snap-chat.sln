@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2005
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snap-chat", "Snap-chat\Snap-chat.csproj", "{72EC07ED-BB19-47BE-9F3E-7AF9419EDB76}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{72EC07ED-BB19-47BE-9F3E-7AF9419EDB76}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72EC07ED-BB19-47BE-9F3E-7AF9419EDB76}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72EC07ED-BB19-47BE-9F3E-7AF9419EDB76}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72EC07ED-BB19-47BE-9F3E-7AF9419EDB76}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {66C3327C-638D-4DD1-8FFA-0371BF6F5F41}
+	EndGlobalSection
+EndGlobal
