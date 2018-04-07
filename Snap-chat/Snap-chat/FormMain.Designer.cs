@@ -40,6 +40,8 @@
             this.btnRestart = new System.Windows.Forms.Button();
             this.btnSpecialChars = new System.Windows.Forms.Button();
             this.btnTweet = new System.Windows.Forms.Button();
+            this.btnRecord = new System.Windows.Forms.Button();
+            this.btnStop = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // pnlOne
@@ -49,7 +51,6 @@
             this.pnlOne.Name = "pnlOne";
             this.pnlOne.Size = new System.Drawing.Size(150, 300);
             this.pnlOne.TabIndex = 0;
-            this.pnlOne.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // pnlTwo
             // 
@@ -58,7 +59,6 @@
             this.pnlTwo.Name = "pnlTwo";
             this.pnlTwo.Size = new System.Drawing.Size(150, 300);
             this.pnlTwo.TabIndex = 0;
-            this.pnlTwo.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // pnlThree
             // 
@@ -67,7 +67,6 @@
             this.pnlThree.Name = "pnlThree";
             this.pnlThree.Size = new System.Drawing.Size(150, 300);
             this.pnlThree.TabIndex = 0;
-            this.pnlThree.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // pnlFour
             // 
@@ -76,7 +75,6 @@
             this.pnlFour.Name = "pnlFour";
             this.pnlFour.Size = new System.Drawing.Size(150, 300);
             this.pnlFour.TabIndex = 0;
-            this.pnlFour.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // pnlFive
             // 
@@ -85,7 +83,6 @@
             this.pnlFive.Name = "pnlFive";
             this.pnlFive.Size = new System.Drawing.Size(150, 300);
             this.pnlFive.TabIndex = 0;
-            this.pnlFive.Paint += new System.Windows.Forms.PaintEventHandler(this.panel1_Paint);
             // 
             // label1
             // 
@@ -152,11 +149,31 @@
             this.btnTweet.Text = "&Tweet";
             this.btnTweet.UseVisualStyleBackColor = true;
             // 
+            // btnRecord
+            // 
+            this.btnRecord.Location = new System.Drawing.Point(103, 423);
+            this.btnRecord.Name = "btnRecord";
+            this.btnRecord.Size = new System.Drawing.Size(129, 32);
+            this.btnRecord.TabIndex = 5;
+            this.btnRecord.Text = "RECORD";
+            this.btnRecord.UseVisualStyleBackColor = true;
+            // 
+            // btnStop
+            // 
+            this.btnStop.Location = new System.Drawing.Point(250, 423);
+            this.btnStop.Name = "btnStop";
+            this.btnStop.Size = new System.Drawing.Size(144, 32);
+            this.btnStop.TabIndex = 6;
+            this.btnStop.Text = "STOP";
+            this.btnStop.UseVisualStyleBackColor = true;
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(750, 461);
+            this.Controls.Add(this.btnStop);
+            this.Controls.Add(this.btnRecord);
             this.Controls.Add(this.btnSpecialChars);
             this.Controls.Add(this.btnTweet);
             this.Controls.Add(this.btnRestart);
@@ -171,6 +188,7 @@
             this.Controls.Add(this.pnlOne);
             this.Name = "frmMain";
             this.Text = "Snap-chat";
+            this.Load += new System.EventHandler(this.frmMain_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -190,6 +208,8 @@
         private System.Windows.Forms.Button btnRestart;
         private System.Windows.Forms.Button btnSpecialChars;
         private System.Windows.Forms.Button btnTweet;
+        private System.Windows.Forms.Button btnRecord;
+        private System.Windows.Forms.Button btnStop;
     }
 }
 
