@@ -16,6 +16,7 @@ namespace Snap_chat
     {
         const int THRESHHOLD = 30000;
         const int AUDIO_BUFFER = 200;
+        const int TOLERANCE = 10000;
 
         WaveInEvent waveIn = new WaveInEvent();
         WaveFileWriter writer = null;
@@ -60,7 +61,7 @@ namespace Snap_chat
 
                 WriteTestFileWithSnaps("\\~testFileWithSnaps.csv");
 
-                MessageBox.Show("Number of Snaps: " + snaps);
+                Console.WriteLine("Number of Snaps: " + snaps);
 
                 snaps = 0;
             };
@@ -73,13 +74,30 @@ namespace Snap_chat
             {
                 byte[] buffer = new byte[reader.Length];
                 int read = reader.Read(buffer, 0, buffer.Length);
+                short[] preSampleBuffer = new short[read / 2];
+                Buffer.BlockCopy(buffer, 0, preSampleBuffer, 0, read);
+
+                //Make a new sample buffer of only positive values
                 short[] sampleBuffer = new short[read / 2];
-                Buffer.BlockCopy(buffer, 0, sampleBuffer, 0, read);
+                int sampleBufferIndex = 0;
+
+                //Loop through the preSampleBuffer that has negative values, and only add positive values to the new array
+                for (int i = 0; i < preSampleBuffer.Length; i++)
+                {
+                    if (preSampleBuffer[i] > 0)
+                    {
+                        sampleBuffer[sampleBufferIndex] = preSampleBuffer[i];
+                        sampleBufferIndex++;
+                    }
+                }
 
                 List<String> lines = new List<String>();
-                for (int i = 0; i < sampleBuffer.Length; i++)
+                for (int i = 1; i < sampleBuffer.Length; i++)
                 {
-                    lines.Add(sampleBuffer[i].ToString());
+                    if (sampleBuffer[i] > 0)
+                    {
+                        lines.Add(sampleBuffer[i].ToString());
+                    }
                 }
                 using (System.IO.StreamWriter file =
                         new System.IO.StreamWriter(outputFolder + fileName))
@@ -101,15 +119,29 @@ namespace Snap_chat
 
                 byte[] buffer = new byte[reader.Length];
                 int read = reader.Read(buffer, 0, buffer.Length);
+                short[] preSampleBuffer = new short[read / 2];
+                Buffer.BlockCopy(buffer, 0, preSampleBuffer, 0, read);
+
+                //Make a new sample buffer of only positive values
                 short[] sampleBuffer = new short[read / 2];
-                Buffer.BlockCopy(buffer, 0, sampleBuffer, 0, read);
+                int sampleBufferIndex = 0;
+
+                //Loop through the preSampleBuffer that has negative values, and only add positive values to the new array
+                for (int i = 0; i < preSampleBuffer.Length; i++)
+                {
+                    if (preSampleBuffer[i] > 0)
+                    {
+                        sampleBuffer[sampleBufferIndex] = preSampleBuffer[i];
+                        sampleBufferIndex++;
+                    }
+                }
 
                 List<String> lines = new List<String>();
                 //Loop through each byte in the array from the .wav file
-                for (int i = 0; i < sampleBuffer.Length; i++)
+                for (int i = 1; i < sampleBuffer.Length; i++)
                 {
                     //If byte is bigger than threshhold and has not recently snapped
-                    if (sampleBuffer[i] > THRESHHOLD && !hasRecentlySnapped)
+                    if ((sampleBuffer[i] - sampleBuffer[i - 1]) > TOLERANCE && !hasRecentlySnapped && sampleBuffer[i] > 0)
                     {
                         hasRecentlySnapped = true;
                         lines.Add(sampleBuffer[i].ToString());
@@ -120,7 +152,7 @@ namespace Snap_chat
                         numberOfSkippedBytes++;
                     }
 
-                    if (numberOfSkippedBytes > 200)
+                    if (numberOfSkippedBytes > AUDIO_BUFFER)
                     {
                         hasRecentlySnapped = false;
                         numberOfSkippedBytes = 0;
@@ -146,15 +178,29 @@ namespace Snap_chat
 
                 byte[] buffer = new byte[reader.Length];
                 int read = reader.Read(buffer, 0, buffer.Length);
+                short[] preSampleBuffer = new short[read / 2];
+                Buffer.BlockCopy(buffer, 0, preSampleBuffer, 0, read);
+
+                //Make a new sample buffer of only positive values
                 short[] sampleBuffer = new short[read / 2];
-                Buffer.BlockCopy(buffer, 0, sampleBuffer, 0, read);
+                int sampleBufferIndex = 0;
+
+                //Loop through the preSampleBuffer that has negative values, and only add positive values to the new array
+                for (int i = 0; i < preSampleBuffer.Length; i++)
+                {
+                    if (preSampleBuffer[i] > 0)
+                    {
+                        sampleBuffer[sampleBufferIndex] = preSampleBuffer[i];
+                        sampleBufferIndex++;
+                    }
+                }
 
                 List<String> lines = new List<String>();
                 //Loop through each byte in the array from the .wav file
-                for (int i = 0; i < sampleBuffer.Length; i++)
+                for (int i = 1; i < sampleBuffer.Length; i++)
                 {
-                    //If byte is bigger than threshhold and has not recently snapped
-                    if (sampleBuffer[i] > THRESHHOLD && !hasRecentlySnapped)
+                    //If the difference between two bytes is bigger than the tolerance, is positive, and has not recently snapped
+                    if ((sampleBuffer[i] - sampleBuffer[i - 1]) > TOLERANCE && !hasRecentlySnapped && sampleBuffer[i] > 0)
                     {
                         hasRecentlySnapped = true;
                         lines.Add(sampleBuffer[i].ToString() + " - Snapped");
@@ -162,7 +208,10 @@ namespace Snap_chat
                     }
                     else
                     {
-                        lines.Add(sampleBuffer[i].ToString());
+                        if (sampleBuffer[i] > 0)
+                        {
+                            lines.Add(sampleBuffer[i].ToString());
+                        }
                     }
 
                     if (hasRecentlySnapped)
@@ -170,7 +219,7 @@ namespace Snap_chat
                         numberOfSkippedBytes++;
                     }
 
-                    if (numberOfSkippedBytes > 200)
+                    if (numberOfSkippedBytes > AUDIO_BUFFER)
                     {
                         hasRecentlySnapped = false;
                         numberOfSkippedBytes = 0;
