@@ -37,40 +37,10 @@ namespace Snap_chat
             outputFilePath = Path.Combine(outputFolder, "testRecording.wav");
 
             //Add a DataAvailable function which stops the recording if it's over 30s long
-            waveIn.DataAvailable += (s, a) =>
-            {
-                writer.Write(a.Buffer, 0, a.BytesRecorded);
-                if (writer.Position > waveIn.WaveFormat.AverageBytesPerSecond * 30)
-                {
-                    waveIn.StopRecording();
-                }
-            };
+            WaveIn_DataAvailable();
 
             //Add a RecordingStopped function that closes and ends the recording, then writes log files
-            waveIn.RecordingStopped += (s, a) =>
-            {
-                writer?.Dispose();
-                writer = null;
-                if (isClosing)
-                {
-                    waveIn.Dispose();
-                }
-
-                WriteLongFile("\\longFile.csv");
-
-                WriteTestFile("\\~testFile.csv");
-
-                WriteTestFileWithSnaps("\\~testFileWithSnaps.csv");
-
-                Console.WriteLine("Number of Snaps: " + snaps);
-
-                if (selectedGroup == 0)
-                {
-                    SelectLetterGroup(snaps);
-                }
-
-                snaps = 0;
-            };
+            WaveIn_RecordingStopped();
         }
 
         #region Write Files
@@ -147,8 +117,7 @@ namespace Snap_chat
                 for (int i = 3; i < sampleBuffer.Length; i++)
                 {
                     //If byte is bigger than threshhold and has not recently snapped
-                    int byteAverage = (sampleBuffer[i - 1] + sampleBuffer[i - 2] + sampleBuffer[i - 3]);
-                    if ((sampleBuffer[i] - byteAverage) > TOLERANCE && !hasRecentlySnapped)
+                    if ((sampleBuffer[i] - sampleBuffer[i - 1]) > TOLERANCE && !hasRecentlySnapped)
                     {
                         hasRecentlySnapped = true;
                         lines.Add(sampleBuffer[i].ToString());
@@ -207,8 +176,7 @@ namespace Snap_chat
                 for (int i = 3; i < sampleBuffer.Length; i++)
                 {
                     //If the difference between two bytes is bigger than the tolerance, is positive, and has not recently snapped
-                    int byteAverage = (sampleBuffer[i - 1] + sampleBuffer[i - 2] + sampleBuffer[i - 3]);
-                    if ((sampleBuffer[i] - byteAverage) > TOLERANCE && !hasRecentlySnapped)
+                    if ((sampleBuffer[i] - sampleBuffer[i - 1]) > TOLERANCE && !hasRecentlySnapped)
                     {
                         hasRecentlySnapped = true;
                         lines.Add(sampleBuffer[i].ToString() + " - Snapped");
@@ -269,12 +237,56 @@ namespace Snap_chat
         }
         #endregion
 
+        #region WaveIn Functions
+        private void WaveIn_DataAvailable()
+        {
+            waveIn.DataAvailable += (s, a) =>
+            {
+                writer.Write(a.Buffer, 0, a.BytesRecorded);
+                if (writer.Position > waveIn.WaveFormat.AverageBytesPerSecond * 30)
+                {
+                    waveIn.StopRecording();
+                }
+            };
+        }
+
+        private void WaveIn_RecordingStopped()
+        {
+            waveIn.RecordingStopped += (s, a) =>
+            {
+                writer?.Dispose();
+                writer = null;
+                if (isClosing)
+                {
+                    waveIn.Dispose();
+                }
+
+                WriteLogs();
+
+                snaps = 0;
+            };
+        }
+        #endregion
+
+        //TODO: Remove; Temporary Code
+        private void WriteLogs()
+        {
+            WriteLongFile("\\longFile.csv");
+
+            WriteTestFile("\\~testFile.csv");
+
+            WriteTestFileWithSnaps("\\~testFileWithSnaps.csv");
+
+            Console.WriteLine("Number of Snaps: " + snaps);
+        }
+
         private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
         {
             isClosing = true;
             waveIn.StopRecording();
         }
 
+        //TODO: Remove; Temporary Code
         private void frmMain_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Q)
