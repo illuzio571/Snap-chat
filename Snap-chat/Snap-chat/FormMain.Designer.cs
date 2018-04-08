@@ -470,7 +470,7 @@
             // 
             // btnRestart
             // 
-            this.btnRestart.Location = new System.Drawing.Point(571, 451);
+            this.btnRestart.Location = new System.Drawing.Point(649, 451);
             this.btnRestart.Name = "btnRestart";
             this.btnRestart.Size = new System.Drawing.Size(75, 23);
             this.btnRestart.TabIndex = 4;
@@ -497,6 +497,7 @@
             this.btnTweet.TabStop = false;
             this.btnTweet.Text = "&Tweet";
             this.btnTweet.UseVisualStyleBackColor = true;
+            this.btnTweet.Visible = false;
             // 
             // pbTime
             // 
