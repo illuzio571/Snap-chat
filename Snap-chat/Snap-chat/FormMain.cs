@@ -6,9 +6,12 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using TwitterOAuth;
 
 namespace Snap_chat
 {
@@ -16,7 +19,7 @@ namespace Snap_chat
     {
         const int AUDIO_BUFFER = 200;
         const int TOLERANCE = 4500;
-        const int MAX_CHARACTERS = 280;
+        const int MAX_CHARACTERS = 274;
 
         WaveInEvent waveIn = new WaveInEvent();
         WaveFileWriter writer = null;
@@ -83,6 +86,14 @@ namespace Snap_chat
                     }
                 }
             }
+        }
+
+        async Task<string> SendTweet(string message)
+        {
+            var twitter = new TwitterApi("FCp5NOLNvHXYFukLAEWcGqPDK", "0sFYlIdAPAdapJBnrm3QUru7c148FIOgPiUsq96ZwlxdFyQmQN",
+                "983005254835953664-e4ZhiDoCJvWp3q8bbwsTNUzh6OpfsUS", "OfMixTMJrEddA4Xnu79mCDk7u5jfD6wnPoaFPwDaVzuW1");
+            var response = await twitter.Tweet("👏 " + message + " 👏");
+            return null;
         }
 
         #region Form Events
@@ -348,6 +359,11 @@ namespace Snap_chat
                     break;
                 }
             }
+        }
+
+        private async void btnTweet_Click(object sender, EventArgs e)
+        {
+            await SendTweet(message);
         }
         #endregion
 
