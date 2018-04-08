@@ -54,6 +54,23 @@ namespace Snap_chat
             waveIn.StopRecording();
         }
 
+        private void Reset(bool hardReset)
+        {
+            panels = new List<Panel>();
+            selectedGroup = 0;
+            selectedPanel = null;
+            snaps = 0;
+            if (hardReset)
+            {
+                message = "";
+                lblMessage.Invoke((MethodInvoker)delegate
+                {
+                    // Running on the UI thread
+                    lblMessage.Text = message;
+                });
+            }
+        }
+
         #region WaveIn Functions
         private void WaveIn_DataAvailable()
         {
@@ -93,9 +110,7 @@ namespace Snap_chat
                     else
                     {
                         SelectLetter(snaps);
-                        panels = new List<Panel>();
-                        selectedGroup = 0;
-                        selectedPanel = null;
+                        Reset(false);
                     }
                 }
 
@@ -423,5 +438,11 @@ namespace Snap_chat
             }
         }
         #endregion
+
+        private void btnRestart_Click(object sender, EventArgs e)
+        {
+            Reset(true);
+            SetPanelVisiblity(true);
+        }
     }
 }

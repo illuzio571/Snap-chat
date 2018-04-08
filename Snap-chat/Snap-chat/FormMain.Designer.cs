@@ -478,6 +478,7 @@
             this.btnRestart.TabStop = false;
             this.btnRestart.Text = "&Reset";
             this.btnRestart.UseVisualStyleBackColor = true;
+            this.btnRestart.Click += new System.EventHandler(this.btnRestart_Click);
             // 
             // btnSpecialChars
             // 
