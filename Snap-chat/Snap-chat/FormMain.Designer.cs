@@ -517,6 +517,11 @@
             this.lblState.TabIndex = 8;
             this.lblState.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
+            // tmrCheckForSnaps
+            // 
+            this.tmrCheckForSnaps.Enabled = true;
+            this.tmrCheckForSnaps.Tick += new System.EventHandler(this.tmrCheckForSnaps_Tick);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);

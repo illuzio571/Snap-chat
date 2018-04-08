@@ -28,7 +28,7 @@ namespace Snap_chat
 
         List<Panel> panels = new List<Panel>();
         Panel selectedPanel;
-        string message = "";
+        string message = "hgfjkafhgjksahfkjas";
         int selectedGroup = 0;
         int snaps = 0;
         bool isClosing = false;
@@ -63,11 +63,6 @@ namespace Snap_chat
             if (hardReset)
             {
                 message = "";
-                lblMessage.Invoke((MethodInvoker)delegate
-                {
-                    // Running on the UI thread
-                    lblMessage.Text = message;
-                });
             }
         }
 
@@ -428,10 +423,6 @@ namespace Snap_chat
                     selectedLetter = label.Text.ToLower();
                     message += selectedLetter;
 
-                    lblMessage.Invoke((MethodInvoker)delegate {
-                        // Running on the UI thread
-                        lblMessage.Text = message;
-                    });
                     SetPanelVisiblity(true);
                     break;
                 }
@@ -443,6 +434,13 @@ namespace Snap_chat
         {
             Reset(true);
             SetPanelVisiblity(true);
+        }
+
+        private void tmrCheckForSnaps_Tick(object sender, EventArgs e)
+        {
+            lblMessage.Text = message;
+            lblChars.Text = message.Length.ToString();
+            lblCharLimit.Text = "/ " + MAX_CHARACTERS.ToString();
         }
     }
 }
