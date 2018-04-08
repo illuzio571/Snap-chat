@@ -14,6 +14,7 @@ namespace Snap_chat
 {
     public partial class frmMain : Form
     {
+        
         const int THRESHHOLD = 30000;
         const int AUDIO_BUFFER = 200;
         const int TOLERANCE = 7500;
@@ -27,6 +28,7 @@ namespace Snap_chat
         int snaps = 0;
         bool isClosing = false;
         int selectedGroup = 0;
+        Panel selectedPanel;
 
         public frmMain()
         {
@@ -78,7 +80,17 @@ namespace Snap_chat
                 WriteLogs();
 
                 //Select what letter group we need
-                SelectLetterGroup(snaps);
+                if (snaps > 0)
+                {
+                    if (selectedGroup == 0)
+                    {
+                        SelectLetterGroup(snaps);
+                    }
+                    else
+                    {
+                        SelectLetter(snaps);
+                    }
+                }
 
                 snaps = 0;
             };
@@ -301,6 +313,16 @@ namespace Snap_chat
         #region Select Letter
         private void SelectLetterGroup(int snaps)
         {
+            List<Panel> panels = new List<Panel>();
+            foreach (Control control in this.Controls)
+            {
+                if (control.GetType().Equals(typeof(Panel)))
+                {
+                    Panel panel = (Panel)(control);
+                    panels.Add(panel);
+                }
+            }
+
             if (snaps <= 5)
             {
                 selectedGroup = snaps;
@@ -309,7 +331,7 @@ namespace Snap_chat
             {
                 selectedGroup = 5;
             }
-            Panel selectedPanel;
+
             switch (selectedGroup)
             {
                 case 1:
@@ -331,13 +353,50 @@ namespace Snap_chat
                     selectedPanel = null;
                     break;
             }
-            if (selectedPanel != null)
+            if (selectedPanel == null)
             {
-                selectedPanel.Left = 0;
+                Console.WriteLine("snaps: " + snaps);
+                Console.WriteLine("SelectedGroup: " + selectedGroup);
+                return;
+            }
+            foreach (Panel panel in panels)
+            {
+                if (panel != selectedPanel)
+                {
+                    
+                    panel.Visible = false;
+
+                }
+            }
+        }
+
+        private void SelectLetter(int snaps)
+        {
+            List<Label> labels = new List<Label>();
+            int letterIndex;
+            String selectedLetter;
+            foreach (Label label in selectedPanel.Controls)
+            {
+                labels.Add(label);
+            }
+
+            if (snaps <= labels.Count)
+            {
+                letterIndex = snaps;
             }
             else
             {
-                //Error
+                letterIndex = labels.Count;
+            }
+
+            foreach (Label label in labels)
+            {
+                int index = (int)(label.Tag);
+                if (index == letterIndex)
+                {
+                    selectedLetter = label.Text.ToLower();
+                    break;
+                }
             }
         }
         #endregion

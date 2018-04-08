@@ -43,15 +43,15 @@
             this.btnRecord = new System.Windows.Forms.Button();
             this.btnStop = new System.Windows.Forms.Button();
             this.lblA = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
+            this.lblB = new System.Windows.Forms.Label();
+            this.lblC = new System.Windows.Forms.Label();
+            this.lblD = new System.Windows.Forms.Label();
+            this.lblE = new System.Windows.Forms.Label();
+            this.lblG = new System.Windows.Forms.Label();
+            this.lblH = new System.Windows.Forms.Label();
+            this.lblI = new System.Windows.Forms.Label();
+            this.lblJ = new System.Windows.Forms.Label();
+            this.lblF = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label13 = new System.Windows.Forms.Label();
@@ -79,10 +79,10 @@
             // 
             this.pnl1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnl1.Controls.Add(this.lblA);
-            this.pnl1.Controls.Add(this.label5);
-            this.pnl1.Controls.Add(this.label4);
-            this.pnl1.Controls.Add(this.label3);
-            this.pnl1.Controls.Add(this.label2);
+            this.pnl1.Controls.Add(this.lblE);
+            this.pnl1.Controls.Add(this.lblD);
+            this.pnl1.Controls.Add(this.lblC);
+            this.pnl1.Controls.Add(this.lblB);
             this.pnl1.Location = new System.Drawing.Point(0, 0);
             this.pnl1.Name = "pnl1";
             this.pnl1.Size = new System.Drawing.Size(150, 300);
@@ -91,11 +91,11 @@
             // pnl2
             // 
             this.pnl2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pnl2.Controls.Add(this.label10);
-            this.pnl2.Controls.Add(this.label9);
-            this.pnl2.Controls.Add(this.label6);
-            this.pnl2.Controls.Add(this.label8);
-            this.pnl2.Controls.Add(this.label7);
+            this.pnl2.Controls.Add(this.lblF);
+            this.pnl2.Controls.Add(this.lblJ);
+            this.pnl2.Controls.Add(this.lblG);
+            this.pnl2.Controls.Add(this.lblI);
+            this.pnl2.Controls.Add(this.lblH);
             this.pnl2.Location = new System.Drawing.Point(150, 0);
             this.pnl2.Name = "pnl2";
             this.pnl2.Size = new System.Drawing.Size(150, 300);
@@ -240,97 +240,107 @@
             this.lblA.Name = "lblA";
             this.lblA.Size = new System.Drawing.Size(39, 37);
             this.lblA.TabIndex = 0;
+            this.lblA.Tag = "1";
             this.lblA.Text = "A";
             // 
-            // label2
+            // lblB
             // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(58, 80);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 37);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "B";
+            this.lblB.AutoSize = true;
+            this.lblB.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblB.Location = new System.Drawing.Point(58, 80);
+            this.lblB.Name = "lblB";
+            this.lblB.Size = new System.Drawing.Size(38, 37);
+            this.lblB.TabIndex = 0;
+            this.lblB.Tag = "2";
+            this.lblB.Text = "B";
             // 
-            // label3
+            // lblC
             // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(58, 127);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(40, 37);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "C";
+            this.lblC.AutoSize = true;
+            this.lblC.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblC.Location = new System.Drawing.Point(58, 127);
+            this.lblC.Name = "lblC";
+            this.lblC.Size = new System.Drawing.Size(40, 37);
+            this.lblC.TabIndex = 0;
+            this.lblC.Tag = "3";
+            this.lblC.Text = "C";
             // 
-            // label4
+            // lblD
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(58, 177);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(40, 37);
-            this.label4.TabIndex = 0;
-            this.label4.Text = "D";
+            this.lblD.AutoSize = true;
+            this.lblD.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblD.Location = new System.Drawing.Point(58, 177);
+            this.lblD.Name = "lblD";
+            this.lblD.Size = new System.Drawing.Size(40, 37);
+            this.lblD.TabIndex = 0;
+            this.lblD.Tag = "4";
+            this.lblD.Text = "D";
             // 
-            // label5
+            // lblE
             // 
-            this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(58, 226);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(38, 37);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "E";
+            this.lblE.AutoSize = true;
+            this.lblE.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblE.Location = new System.Drawing.Point(58, 226);
+            this.lblE.Name = "lblE";
+            this.lblE.Size = new System.Drawing.Size(38, 37);
+            this.lblE.TabIndex = 0;
+            this.lblE.Tag = "5";
+            this.lblE.Text = "E";
             // 
-            // label6
+            // lblG
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label6.Location = new System.Drawing.Point(52, 80);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(42, 37);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "G";
+            this.lblG.AutoSize = true;
+            this.lblG.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblG.Location = new System.Drawing.Point(52, 80);
+            this.lblG.Name = "lblG";
+            this.lblG.Size = new System.Drawing.Size(42, 37);
+            this.lblG.TabIndex = 0;
+            this.lblG.Tag = "2";
+            this.lblG.Text = "G";
             // 
-            // label7
+            // lblH
             // 
-            this.label7.AutoSize = true;
-            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label7.Location = new System.Drawing.Point(52, 127);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(40, 37);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "H";
+            this.lblH.AutoSize = true;
+            this.lblH.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblH.Location = new System.Drawing.Point(52, 127);
+            this.lblH.Name = "lblH";
+            this.lblH.Size = new System.Drawing.Size(40, 37);
+            this.lblH.TabIndex = 0;
+            this.lblH.Tag = "3";
+            this.lblH.Text = "H";
             // 
-            // label8
+            // lblI
             // 
-            this.label8.AutoSize = true;
-            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label8.Location = new System.Drawing.Point(52, 177);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(25, 37);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "I";
+            this.lblI.AutoSize = true;
+            this.lblI.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblI.Location = new System.Drawing.Point(52, 177);
+            this.lblI.Name = "lblI";
+            this.lblI.Size = new System.Drawing.Size(25, 37);
+            this.lblI.TabIndex = 0;
+            this.lblI.Tag = "4";
+            this.lblI.Text = "I";
             // 
-            // label9
+            // lblJ
             // 
-            this.label9.AutoSize = true;
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.Location = new System.Drawing.Point(52, 226);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(33, 37);
-            this.label9.TabIndex = 0;
-            this.label9.Text = "J";
+            this.lblJ.AutoSize = true;
+            this.lblJ.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblJ.Location = new System.Drawing.Point(52, 226);
+            this.lblJ.Name = "lblJ";
+            this.lblJ.Size = new System.Drawing.Size(33, 37);
+            this.lblJ.TabIndex = 0;
+            this.lblJ.Tag = "5";
+            this.lblJ.Text = "J";
             // 
-            // label10
+            // lblF
             // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label10.Location = new System.Drawing.Point(52, 32);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(37, 37);
-            this.label10.TabIndex = 0;
-            this.label10.Text = "F";
+            this.lblF.AutoSize = true;
+            this.lblF.Font = new System.Drawing.Font("Microsoft Sans Serif", 24F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblF.Location = new System.Drawing.Point(52, 32);
+            this.lblF.Name = "lblF";
+            this.lblF.Size = new System.Drawing.Size(37, 37);
+            this.lblF.TabIndex = 0;
+            this.lblF.Tag = "1";
+            this.lblF.Text = "F";
             // 
             // label11
             // 
@@ -340,6 +350,7 @@
             this.label11.Name = "label11";
             this.label11.Size = new System.Drawing.Size(43, 37);
             this.label11.TabIndex = 0;
+            this.label11.Tag = "3";
             this.label11.Text = "M";
             // 
             // label12
@@ -350,6 +361,7 @@
             this.label12.Name = "label12";
             this.label12.Size = new System.Drawing.Size(41, 37);
             this.label12.TabIndex = 0;
+            this.label12.Tag = "4";
             this.label12.Text = "N";
             // 
             // label13
@@ -360,6 +372,7 @@
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(35, 37);
             this.label13.TabIndex = 0;
+            this.label13.Tag = "2";
             this.label13.Text = "L";
             // 
             // label14
@@ -370,6 +383,7 @@
             this.label14.Name = "label14";
             this.label14.Size = new System.Drawing.Size(42, 37);
             this.label14.TabIndex = 0;
+            this.label14.Tag = "5";
             this.label14.Text = "O";
             // 
             // label15
@@ -380,6 +394,7 @@
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(38, 37);
             this.label15.TabIndex = 0;
+            this.label15.Tag = "1";
             this.label15.Text = "K";
             // 
             // label16
@@ -390,6 +405,7 @@
             this.label16.Name = "label16";
             this.label16.Size = new System.Drawing.Size(38, 37);
             this.label16.TabIndex = 0;
+            this.label16.Tag = "4";
             this.label16.Text = "S";
             // 
             // label17
@@ -400,6 +416,7 @@
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(42, 37);
             this.label17.TabIndex = 0;
+            this.label17.Tag = "2";
             this.label17.Text = "Q";
             // 
             // label18
@@ -410,6 +427,7 @@
             this.label18.Name = "label18";
             this.label18.Size = new System.Drawing.Size(39, 37);
             this.label18.TabIndex = 0;
+            this.label18.Tag = "3";
             this.label18.Text = "R";
             // 
             // label19
@@ -420,6 +438,7 @@
             this.label19.Name = "label19";
             this.label19.Size = new System.Drawing.Size(37, 37);
             this.label19.TabIndex = 0;
+            this.label19.Tag = "5";
             this.label19.Text = "T";
             // 
             // label20
@@ -430,6 +449,7 @@
             this.label20.Name = "label20";
             this.label20.Size = new System.Drawing.Size(38, 37);
             this.label20.TabIndex = 0;
+            this.label20.Tag = "1";
             this.label20.Text = "P";
             // 
             // label21
@@ -440,6 +460,7 @@
             this.label21.Name = "label21";
             this.label21.Size = new System.Drawing.Size(39, 37);
             this.label21.TabIndex = 0;
+            this.label21.Tag = "2";
             this.label21.Text = "V";
             // 
             // label22
@@ -450,6 +471,7 @@
             this.label22.Name = "label22";
             this.label22.Size = new System.Drawing.Size(48, 37);
             this.label22.TabIndex = 0;
+            this.label22.Tag = "3";
             this.label22.Text = "W";
             // 
             // label23
@@ -460,6 +482,7 @@
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(38, 37);
             this.label23.TabIndex = 0;
+            this.label23.Tag = "4";
             this.label23.Text = "X";
             // 
             // label24
@@ -470,6 +493,7 @@
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(39, 37);
             this.label24.TabIndex = 0;
+            this.label24.Tag = "5";
             this.label24.Text = "Y";
             // 
             // label25
@@ -480,6 +504,7 @@
             this.label25.Name = "label25";
             this.label25.Size = new System.Drawing.Size(40, 37);
             this.label25.TabIndex = 0;
+            this.label25.Tag = "1";
             this.label25.Text = "U";
             // 
             // label26
@@ -490,6 +515,7 @@
             this.label26.Name = "label26";
             this.label26.Size = new System.Drawing.Size(37, 37);
             this.label26.TabIndex = 0;
+            this.label26.Tag = "6";
             this.label26.Text = "Z";
             // 
             // frmMain
@@ -547,15 +573,15 @@
         private System.Windows.Forms.Button btnRecord;
         private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Label lblA;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label lblE;
+        private System.Windows.Forms.Label lblD;
+        private System.Windows.Forms.Label lblC;
+        private System.Windows.Forms.Label lblB;
+        private System.Windows.Forms.Label lblF;
+        private System.Windows.Forms.Label lblJ;
+        private System.Windows.Forms.Label lblG;
+        private System.Windows.Forms.Label lblI;
+        private System.Windows.Forms.Label lblH;
         private System.Windows.Forms.Label label15;
         private System.Windows.Forms.Label label14;
         private System.Windows.Forms.Label label11;
