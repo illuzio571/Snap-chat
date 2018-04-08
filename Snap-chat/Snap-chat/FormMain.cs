@@ -26,6 +26,7 @@ namespace Snap_chat
         string outputFilePath = String.Empty;
         int snaps = 0;
         bool isClosing = false;
+        int selectedGroup = 0;
 
         public frmMain()
         {
@@ -62,6 +63,11 @@ namespace Snap_chat
                 WriteTestFileWithSnaps("\\~testFileWithSnaps.csv");
 
                 Console.WriteLine("Number of Snaps: " + snaps);
+
+                if (selectedGroup == 0)
+                {
+                    SelectLetterGroup(snaps);
+                }
 
                 snaps = 0;
             };
@@ -253,6 +259,13 @@ namespace Snap_chat
             btnRecord.Enabled = true;
             btnStop.Enabled = false;
             waveIn.StopRecording();
+        }
+        #endregion
+
+        #region Select Letter
+        private void SelectLetterGroup(int snaps)
+        {
+
         }
         #endregion
 
