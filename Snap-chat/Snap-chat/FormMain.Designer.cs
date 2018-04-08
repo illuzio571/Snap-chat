@@ -65,10 +65,10 @@
             this.lblChars = new System.Windows.Forms.Label();
             this.lblCharLimit = new System.Windows.Forms.Label();
             this.btnRestart = new System.Windows.Forms.Button();
-            this.btnSpecialChars = new System.Windows.Forms.Button();
+            this.btnStart = new System.Windows.Forms.Button();
             this.btnTweet = new System.Windows.Forms.Button();
             this.pbTime = new System.Windows.Forms.ProgressBar();
-            this.lblState = new System.Windows.Forms.Label();
+            this.lblAlert = new System.Windows.Forms.Label();
             this.tmrCheckForSnaps = new System.Windows.Forms.Timer(this.components);
             this.pnl1.SuspendLayout();
             this.pnl2.SuspendLayout();
@@ -433,7 +433,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 342);
+            this.label1.Location = new System.Drawing.Point(12, 332);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(86, 20);
             this.label1.TabIndex = 1;
@@ -442,9 +442,10 @@
             // lblMessage
             // 
             this.lblMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblMessage.Location = new System.Drawing.Point(16, 368);
+            this.lblMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblMessage.Location = new System.Drawing.Point(16, 360);
             this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(709, 68);
+            this.lblMessage.Size = new System.Drawing.Size(710, 76);
             this.lblMessage.TabIndex = 2;
             this.lblMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
@@ -477,16 +478,18 @@
             this.btnRestart.TabStop = false;
             this.btnRestart.Text = "&Reset";
             this.btnRestart.UseVisualStyleBackColor = true;
+            this.btnRestart.Click += new System.EventHandler(this.btnRestart_Click);
             // 
-            // btnSpecialChars
+            // btnStart
             // 
-            this.btnSpecialChars.Location = new System.Drawing.Point(450, 451);
-            this.btnSpecialChars.Name = "btnSpecialChars";
-            this.btnSpecialChars.Size = new System.Drawing.Size(115, 23);
-            this.btnSpecialChars.TabIndex = 4;
-            this.btnSpecialChars.TabStop = false;
-            this.btnSpecialChars.Text = "&Special Characters";
-            this.btnSpecialChars.UseVisualStyleBackColor = true;
+            this.btnStart.Location = new System.Drawing.Point(0, 0);
+            this.btnStart.Name = "btnStart";
+            this.btnStart.Size = new System.Drawing.Size(105, 25);
+            this.btnStart.TabIndex = 4;
+            this.btnStart.TabStop = false;
+            this.btnStart.Text = "&START";
+            this.btnStart.UseVisualStyleBackColor = true;
+            this.btnStart.Click += new System.EventHandler(this.btnStart_Click);
             // 
             // btnTweet
             // 
@@ -505,25 +508,31 @@
             this.pbTime.Maximum = 50;
             this.pbTime.Name = "pbTime";
             this.pbTime.Size = new System.Drawing.Size(645, 25);
+            this.pbTime.Step = 1;
             this.pbTime.TabIndex = 7;
             // 
-            // lblState
+            // lblAlert
             // 
-            this.lblState.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblState.Location = new System.Drawing.Point(0, 0);
-            this.lblState.Name = "lblState";
-            this.lblState.Size = new System.Drawing.Size(105, 25);
-            this.lblState.TabIndex = 8;
-            this.lblState.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblAlert.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblAlert.Location = new System.Drawing.Point(0, 0);
+            this.lblAlert.Name = "lblAlert";
+            this.lblAlert.Size = new System.Drawing.Size(105, 25);
+            this.lblAlert.TabIndex = 8;
+            this.lblAlert.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.lblAlert.Visible = false;
+            // 
+            // tmrCheckForSnaps
+            // 
+            this.tmrCheckForSnaps.Tick += new System.EventHandler(this.tmrCheckForSnaps_Tick);
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(750, 486);
-            this.Controls.Add(this.lblState);
+            this.Controls.Add(this.lblAlert);
             this.Controls.Add(this.pbTime);
-            this.Controls.Add(this.btnSpecialChars);
+            this.Controls.Add(this.btnStart);
             this.Controls.Add(this.btnTweet);
             this.Controls.Add(this.btnRestart);
             this.Controls.Add(this.lblCharLimit);
@@ -538,7 +547,6 @@
             this.Name = "frmMain";
             this.Text = "Snap-chat";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyDown);
             this.pnl1.ResumeLayout(false);
             this.pnl1.PerformLayout();
             this.pnl2.ResumeLayout(false);
@@ -566,7 +574,7 @@
         private System.Windows.Forms.Label lblChars;
         private System.Windows.Forms.Label lblCharLimit;
         private System.Windows.Forms.Button btnRestart;
-        private System.Windows.Forms.Button btnSpecialChars;
+        private System.Windows.Forms.Button btnStart;
         private System.Windows.Forms.Button btnTweet;
         private System.Windows.Forms.Label lblA;
         private System.Windows.Forms.Label lblE;
@@ -595,7 +603,7 @@
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label22;
         private System.Windows.Forms.ProgressBar pbTime;
-        private System.Windows.Forms.Label lblState;
+        private System.Windows.Forms.Label lblAlert;
         private System.Windows.Forms.Timer tmrCheckForSnaps;
     }
 }

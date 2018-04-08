@@ -14,9 +14,9 @@ namespace Snap_chat
 {
     public partial class frmMain : Form
     {
-        const int THRESHHOLD = 30000;
         const int AUDIO_BUFFER = 200;
         const int TOLERANCE = 4500;
+        const int MAX_CHARACTERS = 280;
 
         WaveInEvent waveIn = new WaveInEvent();
         WaveFileWriter writer = null;
@@ -31,7 +31,61 @@ namespace Snap_chat
         int selectedGroup = 0;
         int snaps = 0;
         bool isClosing = false;
-        
+        bool canSnap = false;
+
+        private void ReadSnaps()
+        {
+            using (WaveFileReader reader = new WaveFileReader(outputFilePath))
+            {
+                bool hasRecentlySnapped = false;
+                int numberOfSkippedBytes = 0;
+
+                byte[] buffer = new byte[reader.Length];
+                int read = reader.Read(buffer, 0, buffer.Length);
+                short[] preSampleBuffer = new short[read / 2];
+                Buffer.BlockCopy(buffer, 0, preSampleBuffer, 0, read);
+
+                //Make a new sample buffer of only positive values
+                short[] sampleBuffer = new short[read / 2];
+                int sampleBufferIndex = 0;
+
+                //Loop through the preSampleBuffer that has negative values, and only add positive values to the new array
+                for (int i = 0; i < preSampleBuffer.Length; i++)
+                {
+                    if (preSampleBuffer[i] > 0)
+                    {
+                        sampleBuffer[sampleBufferIndex] = preSampleBuffer[i];
+                        sampleBufferIndex++;
+                    }
+                }
+
+                //Loop through each byte in the array from the .wav file
+                for (int i = 3; i < sampleBuffer.Length; i++)
+                {
+                    //If the difference between two bytes is bigger than the tolerance, is positive, and has not recently snapped
+                    int minimum = Math.Min(sampleBuffer[i - 1], sampleBuffer[i - 2]);
+                    minimum = Math.Min(minimum, sampleBuffer[i - 3]);
+                    if ((sampleBuffer[i] - minimum) > TOLERANCE && !hasRecentlySnapped)
+                    {
+                        hasRecentlySnapped = true;
+                        snaps++;
+                    }
+
+                    if (hasRecentlySnapped)
+                    {
+                        numberOfSkippedBytes++;
+                    }
+
+                    if (numberOfSkippedBytes > AUDIO_BUFFER)
+                    {
+                        hasRecentlySnapped = false;
+                        numberOfSkippedBytes = 0;
+                    }
+                }
+            }
+        }
+
+        #region Form Events
         public frmMain()
         {
             InitializeComponent();
@@ -52,6 +106,115 @@ namespace Snap_chat
             isClosing = true;
             waveIn.StopRecording();
         }
+
+        private void Reset(bool hardReset)
+        {
+            if (hardReset)
+            {
+                message = "";
+                canSnap = false;
+                tmrCheckForSnaps.Stop();
+                pbTime.Invoke((MethodInvoker)delegate
+                {
+                    // Running on the UI thread
+                    pbTime.Value = 0;
+                    pbTime.Maximum = 50;
+                    lblAlert.Visible = false;
+                    btnStart.Visible = true;
+                });
+
+                lblMessage.Invoke((MethodInvoker)delegate
+                {
+                    // Running on the UI thread
+                    lblMessage.Text = message;
+                });
+
+                lblChars.Invoke((MethodInvoker)delegate
+                {
+                    // Running on the UI thread
+                    lblChars.Text = message.Length.ToString();
+                });
+                SetPanelVisiblity(true);
+            }
+            panels = new List<Panel>();
+            selectedGroup = 0;
+            selectedPanel = null;
+            snaps = 0;
+        }
+
+        private void SetPanelVisiblity(bool makeVisible)
+        {
+            foreach (Panel panel in panels)
+            {
+                if (panel != selectedPanel)
+                {
+                    panel.Invoke((MethodInvoker)delegate
+                    {
+                        // Running on the UI thread
+                        if (makeVisible)
+                        {
+                            panel.Visible = true;
+                        }
+                        else
+                        {
+                            panel.Visible = false;
+                        }
+                    });
+                }
+            }
+        }
+
+        private void btnRestart_Click(object sender, EventArgs e)
+        {
+            Reset(true);
+            SetPanelVisiblity(true);
+        }
+
+        private void tmrCheckForSnaps_Tick(object sender, EventArgs e)
+        {
+            lblMessage.Text = message;
+            lblChars.Text = message.Length.ToString();
+            lblCharLimit.Text = "/ " + MAX_CHARACTERS.ToString();
+
+            if (pbTime.Value < pbTime.Maximum)
+            {
+                pbTime.Value++;
+                pbTime.Value--;
+                pbTime.Value++;
+            }
+            else
+            {
+                if (!canSnap)
+                {
+                    canSnap = true;
+                    lblAlert.ForeColor = Color.Green;
+                    lblAlert.Text = "SNAP!";
+                    pbTime.Maximum = 50;
+                    writer = new WaveFileWriter(outputFilePath, waveIn.WaveFormat);
+                    waveIn.StartRecording();
+                }
+                else
+                {
+                    canSnap = false;
+                    lblAlert.ForeColor = Color.Red;
+                    lblAlert.Text = "WAIT!";
+                    pbTime.Maximum = 10;
+                    waveIn.StopRecording();
+                }
+                pbTime.Value = 0;
+            }
+        }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            canSnap = true;
+            tmrCheckForSnaps.Start();
+            lblAlert.ForeColor = Color.Green;
+            lblAlert.Text = "SNAP!";
+            lblAlert.Visible = true;
+            btnStart.Visible = false;
+        }
+        #endregion
 
         #region WaveIn Functions
         private void WaveIn_DataAvailable()
@@ -78,8 +241,9 @@ namespace Snap_chat
                     waveIn.Dispose();
                 }
 
-                //Write out logs
-                WriteLogs();
+                ReadSnaps();
+
+                Console.WriteLine("Number of Snaps: " + snaps);
 
                 //Select what letter group we need
                 if (snaps > 0)
@@ -92,9 +256,7 @@ namespace Snap_chat
                     else
                     {
                         SelectLetter(snaps);
-                        panels = new List<Panel>();
-                        selectedGroup = 0;
-                        selectedPanel = null;
+                        Reset(false);
                     }
                 }
 
@@ -103,22 +265,104 @@ namespace Snap_chat
         }
         #endregion
 
-        #region Record / Stop; Test Functions
+        #region Select Letter
+        private void SelectLetterGroup(int snaps)
+        {
+            //Grab all the panels on the form for some manipulation
+            foreach (Control control in this.Controls)
+            {
+                if (control.GetType().Equals(typeof(Panel)))
+                {
+                    Panel panel = (Panel)(control);
+                    panels.Add(panel);
+                }
+            }
+
+            //If the snaps are less than 5 (the max), make the group == snaps; If they go over, just default to 5
+            if (snaps <= 5)
+            {
+                selectedGroup = snaps;
+            }
+            else
+            {
+                selectedGroup = 5;
+            }
+
+            switch (selectedGroup)
+            {
+                case 1:
+                    selectedPanel = pnl1;
+                    break;
+                case 2:
+                    selectedPanel = pnl2;
+                    break;
+                case 3:
+                    selectedPanel = pnl3;
+                    break;
+                case 4:
+                    selectedPanel = pnl4;
+                    break;
+                case 5:
+                    selectedPanel = pnl5;
+                    break;
+                default:
+                    selectedPanel = null;
+                    break;
+            }
+
+            SetPanelVisiblity(false);
+        }
+
+        private void SelectLetter(int snaps)
+        {
+            //Grab a list of all the labels in a group for manipulation
+            List<Label> labels = new List<Label>();
+            String selectedLetter;
+            int letterIndex;
+
+            foreach (Label label in selectedPanel.Controls)
+            {
+                labels.Add(label);
+            }
+
+            if (snaps <= labels.Count)
+            {
+                letterIndex = snaps;
+            }
+            else
+            {
+                letterIndex = labels.Count;
+            }
+
+            foreach (Label label in labels)
+            {
+                //If that index is the one we want, print
+                int index = Convert.ToInt32(label.Tag);
+                if (index == letterIndex)
+                {
+                    //Print out a letter
+                    selectedLetter = label.Text.ToLower();
+                    message += selectedLetter;
+
+                    SetPanelVisiblity(true);
+                    break;
+                }
+            }
+        }
+        #endregion
+
+        /*#region Record / Stop; Test Functions
         private void btnRecord_Click(object sender, EventArgs e)
         {
             writer = new WaveFileWriter(outputFilePath, waveIn.WaveFormat);
             waveIn.StartRecording();
-            btnRecord.Enabled = false;
-            btnStop.Enabled = true;
         }
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            btnRecord.Enabled = true;
-            btnStop.Enabled = false;
             waveIn.StopRecording();
         }
-        
+
         private void frmMain_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Q)
@@ -131,7 +375,7 @@ namespace Snap_chat
                 waveIn.StopRecording();
             }
         }
-        
+
         private void WriteLogs()
         {
             WriteLongFile("\\longFile.csv");
@@ -314,117 +558,6 @@ namespace Snap_chat
                 }
             }
         }
-        #endregion
-
-        private void SetPanelVisiblity(bool makeVisible)
-        {
-            foreach (Panel panel in panels)
-            {
-                if (panel != selectedPanel)
-                {
-                    panel.Invoke((MethodInvoker)delegate {
-                        // Running on the UI thread
-                        if (makeVisible)
-                        {
-                            panel.Visible = true;
-                        }
-                        else
-                        {
-                            panel.Visible = false;
-                        }
-                    });
-                }
-            }
-        }
-
-        #region Select Letter
-        private void SelectLetterGroup(int snaps)
-        {
-            //Grab all the panels on the form for some manipulation
-            foreach (Control control in this.Controls)
-            {
-                if (control.GetType().Equals(typeof(Panel)))
-                {
-                    Panel panel = (Panel)(control);
-                    panels.Add(panel);
-                }
-            }
-
-            //If the snaps are less than 5 (the max), make the group == snaps; If they go over, just default to 5
-            if (snaps <= 5)
-            {
-                selectedGroup = snaps;
-            }
-            else
-            {
-                selectedGroup = 5;
-            }
-
-            switch (selectedGroup)
-            {
-                case 1:
-                    selectedPanel = pnl1;
-                    break;
-                case 2:
-                    selectedPanel = pnl2;
-                    break;
-                case 3:
-                    selectedPanel = pnl3;
-                    break;
-                case 4:
-                    selectedPanel = pnl4;
-                    break;
-                case 5:
-                    selectedPanel = pnl5;
-                    break;
-                default:
-                    selectedPanel = null;
-                    break;
-            }
-
-            SetPanelVisiblity(false);
-        }
-
-        private void SelectLetter(int snaps)
-        {
-            //Grab a list of all the labels in a group for manipulation
-            List<Label> labels = new List<Label>();
-            String selectedLetter;
-            int letterIndex;
-
-            foreach (Label label in selectedPanel.Controls)
-            {
-                labels.Add(label);
-            }
-
-            if (snaps <= labels.Count)
-            {
-                letterIndex = snaps;
-            }
-            else
-            {
-                letterIndex = labels.Count;
-            }
-
-            foreach (Label label in labels)
-            {
-                //If that index is the one we want, print
-                int index = Convert.ToInt32(label.Tag);
-                if (index == letterIndex)
-                {
-                    //Print out a letter
-                    selectedLetter = label.Text.ToLower();
-                    message += selectedLetter;
-
-                    lblMessage.Invoke((MethodInvoker)delegate {
-                        // Running on the UI thread
-                        lblMessage.Text = message;
-                    });
-                    SetPanelVisiblity(true);
-                    break;
-                }
-            }
-        }
-        #endregion
+        #endregion*/
     }
 }
