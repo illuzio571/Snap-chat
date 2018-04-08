@@ -507,6 +507,7 @@
             this.pbTime.Maximum = 50;
             this.pbTime.Name = "pbTime";
             this.pbTime.Size = new System.Drawing.Size(645, 25);
+            this.pbTime.Step = 1;
             this.pbTime.TabIndex = 7;
             // 
             // lblAlert
@@ -521,11 +522,6 @@
             // 
             // tmrCheckForSnaps
             // 
-            this.tmrCheckForSnaps.Tick += new System.EventHandler(this.tmrCheckForSnaps_Tick);
-            // 
-            // tmrCheckForSnaps
-            // 
-            this.tmrCheckForSnaps.Enabled = true;
             this.tmrCheckForSnaps.Tick += new System.EventHandler(this.tmrCheckForSnaps_Tick);
             // 
             // frmMain

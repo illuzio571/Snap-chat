@@ -28,12 +28,13 @@ namespace Snap_chat
 
         List<Panel> panels = new List<Panel>();
         Panel selectedPanel;
-        string message = "hgfjkafhgjksahfkjas";
+        string message = "";
         int selectedGroup = 0;
         int snaps = 0;
         bool isClosing = false;
         bool canSnap = false;
-        
+        bool pbIsFull = false;
+
         public frmMain()
         {
             InitializeComponent();
@@ -126,7 +127,7 @@ namespace Snap_chat
         {
             waveIn.StopRecording();
         }
-        
+
         private void frmMain_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Q)
@@ -139,7 +140,7 @@ namespace Snap_chat
                 waveIn.StopRecording();
             }
         }
-        
+
         private void WriteLogs()
         {
             WriteLongFile("\\longFile.csv");
@@ -330,7 +331,8 @@ namespace Snap_chat
             {
                 if (panel != selectedPanel)
                 {
-                    panel.Invoke((MethodInvoker)delegate {
+                    panel.Invoke((MethodInvoker)delegate
+                    {
                         // Running on the UI thread
                         if (makeVisible)
                         {
@@ -443,22 +445,31 @@ namespace Snap_chat
             lblChars.Text = message.Length.ToString();
             lblCharLimit.Text = "/ " + MAX_CHARACTERS.ToString();
 
-            if (pbTime.Value < pbTime.Maximum) {
+            if (pbTime.Value < pbTime.Maximum)
+            {
+                pbTime.Value++;
+                pbTime.Value--;
                 pbTime.Value++;
             }
             else
             {
+                pbIsFull = false;
                 if (!canSnap)
                 {
                     canSnap = true;
-                    lblAlert.ForeColor = Color.Red;
-                    lblAlert.Text = "WAIT!";
+                    lblAlert.ForeColor = Color.Green;
+                    lblAlert.Text = "SNAP!";
+                    pbTime.Maximum = 50;
+                    writer = new WaveFileWriter(outputFilePath, waveIn.WaveFormat);
+                    waveIn.StartRecording();
                 }
                 else
                 {
                     canSnap = false;
-                    lblAlert.ForeColor = Color.Green;
-                    lblAlert.Text = "SNAP!";
+                    lblAlert.ForeColor = Color.Red;
+                    lblAlert.Text = "WAIT!";
+                    pbTime.Maximum = 10;
+                    waveIn.StopRecording();
                 }
                 pbTime.Value = 0;
             }
