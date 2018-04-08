@@ -16,7 +16,7 @@ namespace Snap_chat
     {
         const int THRESHHOLD = 30000;
         const int AUDIO_BUFFER = 200;
-        const int TOLERANCE = 7500;
+        const int TOLERANCE = 4500;
 
         WaveInEvent waveIn = new WaveInEvent();
         WaveFileWriter writer = null;
@@ -216,7 +216,9 @@ namespace Snap_chat
                 for (int i = 3; i < sampleBuffer.Length; i++)
                 {
                     //If byte is bigger than threshhold and has not recently snapped
-                    if ((sampleBuffer[i] - sampleBuffer[i - 1]) > TOLERANCE && !hasRecentlySnapped)
+                    int minimum = Math.Min(sampleBuffer[i - 1], sampleBuffer[i - 2]);
+                    minimum = Math.Min(minimum, sampleBuffer[i - 3]);
+                    if ((sampleBuffer[i] - minimum) > TOLERANCE && !hasRecentlySnapped)
                     {
                         hasRecentlySnapped = true;
                         lines.Add(sampleBuffer[i].ToString());
@@ -275,7 +277,9 @@ namespace Snap_chat
                 for (int i = 3; i < sampleBuffer.Length; i++)
                 {
                     //If the difference between two bytes is bigger than the tolerance, is positive, and has not recently snapped
-                    if ((sampleBuffer[i] - sampleBuffer[i - 1]) > TOLERANCE && !hasRecentlySnapped)
+                    int minimum = Math.Min(sampleBuffer[i - 1], sampleBuffer[i - 2]);
+                    minimum = Math.Min(minimum, sampleBuffer[i - 3]);
+                    if ((sampleBuffer[i] - minimum) > TOLERANCE && !hasRecentlySnapped)
                     {
                         hasRecentlySnapped = true;
                         lines.Add(sampleBuffer[i].ToString() + " - Snapped");
