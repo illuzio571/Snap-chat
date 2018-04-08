@@ -488,7 +488,7 @@
             this.btnTweet.Size = new System.Drawing.Size(75, 23);
             this.btnTweet.TabIndex = 4;
             this.btnTweet.TabStop = false;
-            this.btnTweet.Text = "Tweet";
+            this.btnTweet.Text = "&Tweet";
             this.btnTweet.UseVisualStyleBackColor = true;
             this.btnTweet.Click += new System.EventHandler(this.btnTweet_Click);
             // 
