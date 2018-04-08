@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.pnl1 = new System.Windows.Forms.Panel();
             this.lblA = new System.Windows.Forms.Label();
             this.lblE = new System.Windows.Forms.Label();
@@ -66,8 +67,9 @@
             this.btnRestart = new System.Windows.Forms.Button();
             this.btnSpecialChars = new System.Windows.Forms.Button();
             this.btnTweet = new System.Windows.Forms.Button();
-            this.btnRecord = new System.Windows.Forms.Button();
-            this.btnStop = new System.Windows.Forms.Button();
+            this.pbTime = new System.Windows.Forms.ProgressBar();
+            this.lblState = new System.Windows.Forms.Label();
+            this.tmrCheckForSnaps = new System.Windows.Forms.Timer(this.components);
             this.pnl1.SuspendLayout();
             this.pnl2.SuspendLayout();
             this.pnl3.SuspendLayout();
@@ -83,7 +85,7 @@
             this.pnl1.Controls.Add(this.lblD);
             this.pnl1.Controls.Add(this.lblC);
             this.pnl1.Controls.Add(this.lblB);
-            this.pnl1.Location = new System.Drawing.Point(0, 0);
+            this.pnl1.Location = new System.Drawing.Point(0, 25);
             this.pnl1.Name = "pnl1";
             this.pnl1.Size = new System.Drawing.Size(150, 300);
             this.pnl1.TabIndex = 0;
@@ -151,7 +153,7 @@
             this.pnl2.Controls.Add(this.lblG);
             this.pnl2.Controls.Add(this.lblI);
             this.pnl2.Controls.Add(this.lblH);
-            this.pnl2.Location = new System.Drawing.Point(150, 0);
+            this.pnl2.Location = new System.Drawing.Point(150, 25);
             this.pnl2.Name = "pnl2";
             this.pnl2.Size = new System.Drawing.Size(150, 300);
             this.pnl2.TabIndex = 0;
@@ -219,7 +221,7 @@
             this.pnl3.Controls.Add(this.label11);
             this.pnl3.Controls.Add(this.label13);
             this.pnl3.Controls.Add(this.label12);
-            this.pnl3.Location = new System.Drawing.Point(300, 0);
+            this.pnl3.Location = new System.Drawing.Point(300, 25);
             this.pnl3.Name = "pnl3";
             this.pnl3.Size = new System.Drawing.Size(150, 300);
             this.pnl3.TabIndex = 0;
@@ -287,7 +289,7 @@
             this.pnl4.Controls.Add(this.label16);
             this.pnl4.Controls.Add(this.label18);
             this.pnl4.Controls.Add(this.label17);
-            this.pnl4.Location = new System.Drawing.Point(450, 0);
+            this.pnl4.Location = new System.Drawing.Point(450, 25);
             this.pnl4.Name = "pnl4";
             this.pnl4.Size = new System.Drawing.Size(150, 300);
             this.pnl4.TabIndex = 0;
@@ -356,7 +358,7 @@
             this.pnl5.Controls.Add(this.label21);
             this.pnl5.Controls.Add(this.label23);
             this.pnl5.Controls.Add(this.label22);
-            this.pnl5.Location = new System.Drawing.Point(600, 0);
+            this.pnl5.Location = new System.Drawing.Point(600, 25);
             this.pnl5.Name = "pnl5";
             this.pnl5.Size = new System.Drawing.Size(150, 300);
             this.pnl5.TabIndex = 0;
@@ -431,7 +433,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(12, 314);
+            this.label1.Location = new System.Drawing.Point(12, 342);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(86, 20);
             this.label1.TabIndex = 1;
@@ -440,7 +442,7 @@
             // lblMessage
             // 
             this.lblMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblMessage.Location = new System.Drawing.Point(16, 343);
+            this.lblMessage.Location = new System.Drawing.Point(16, 368);
             this.lblMessage.Name = "lblMessage";
             this.lblMessage.Size = new System.Drawing.Size(709, 68);
             this.lblMessage.TabIndex = 2;
@@ -449,7 +451,7 @@
             // lblChars
             // 
             this.lblChars.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblChars.Location = new System.Drawing.Point(24, 427);
+            this.lblChars.Location = new System.Drawing.Point(24, 452);
             this.lblChars.Name = "lblChars";
             this.lblChars.Size = new System.Drawing.Size(27, 23);
             this.lblChars.TabIndex = 3;
@@ -460,7 +462,7 @@
             // 
             this.lblCharLimit.AutoSize = true;
             this.lblCharLimit.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblCharLimit.Location = new System.Drawing.Point(46, 428);
+            this.lblCharLimit.Location = new System.Drawing.Point(46, 453);
             this.lblCharLimit.Name = "lblCharLimit";
             this.lblCharLimit.Size = new System.Drawing.Size(40, 20);
             this.lblCharLimit.TabIndex = 3;
@@ -468,7 +470,7 @@
             // 
             // btnRestart
             // 
-            this.btnRestart.Location = new System.Drawing.Point(571, 426);
+            this.btnRestart.Location = new System.Drawing.Point(571, 451);
             this.btnRestart.Name = "btnRestart";
             this.btnRestart.Size = new System.Drawing.Size(75, 23);
             this.btnRestart.TabIndex = 4;
@@ -478,7 +480,7 @@
             // 
             // btnSpecialChars
             // 
-            this.btnSpecialChars.Location = new System.Drawing.Point(450, 426);
+            this.btnSpecialChars.Location = new System.Drawing.Point(450, 451);
             this.btnSpecialChars.Name = "btnSpecialChars";
             this.btnSpecialChars.Size = new System.Drawing.Size(115, 23);
             this.btnSpecialChars.TabIndex = 4;
@@ -488,7 +490,7 @@
             // 
             // btnTweet
             // 
-            this.btnTweet.Location = new System.Drawing.Point(650, 426);
+            this.btnTweet.Location = new System.Drawing.Point(650, 451);
             this.btnTweet.Name = "btnTweet";
             this.btnTweet.Size = new System.Drawing.Size(75, 23);
             this.btnTweet.TabIndex = 4;
@@ -496,36 +498,30 @@
             this.btnTweet.Text = "&Tweet";
             this.btnTweet.UseVisualStyleBackColor = true;
             // 
-            // btnRecord
+            // pbTime
             // 
-            this.btnRecord.Location = new System.Drawing.Point(103, 423);
-            this.btnRecord.Name = "btnRecord";
-            this.btnRecord.Size = new System.Drawing.Size(129, 32);
-            this.btnRecord.TabIndex = 5;
-            this.btnRecord.TabStop = false;
-            this.btnRecord.Text = "RECORD";
-            this.btnRecord.UseVisualStyleBackColor = true;
-            this.btnRecord.Click += new System.EventHandler(this.btnRecord_Click);
+            this.pbTime.Location = new System.Drawing.Point(105, 0);
+            this.pbTime.Maximum = 50;
+            this.pbTime.Name = "pbTime";
+            this.pbTime.Size = new System.Drawing.Size(645, 25);
+            this.pbTime.TabIndex = 7;
             // 
-            // btnStop
+            // lblState
             // 
-            this.btnStop.Enabled = false;
-            this.btnStop.Location = new System.Drawing.Point(250, 423);
-            this.btnStop.Name = "btnStop";
-            this.btnStop.Size = new System.Drawing.Size(144, 32);
-            this.btnStop.TabIndex = 6;
-            this.btnStop.TabStop = false;
-            this.btnStop.Text = "STOP";
-            this.btnStop.UseVisualStyleBackColor = true;
-            this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
+            this.lblState.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblState.Location = new System.Drawing.Point(0, 0);
+            this.lblState.Name = "lblState";
+            this.lblState.Size = new System.Drawing.Size(105, 25);
+            this.lblState.TabIndex = 8;
+            this.lblState.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(750, 461);
-            this.Controls.Add(this.btnStop);
-            this.Controls.Add(this.btnRecord);
+            this.ClientSize = new System.Drawing.Size(750, 486);
+            this.Controls.Add(this.lblState);
+            this.Controls.Add(this.pbTime);
             this.Controls.Add(this.btnSpecialChars);
             this.Controls.Add(this.btnTweet);
             this.Controls.Add(this.btnRestart);
@@ -571,8 +567,6 @@
         private System.Windows.Forms.Button btnRestart;
         private System.Windows.Forms.Button btnSpecialChars;
         private System.Windows.Forms.Button btnTweet;
-        private System.Windows.Forms.Button btnRecord;
-        private System.Windows.Forms.Button btnStop;
         private System.Windows.Forms.Label lblA;
         private System.Windows.Forms.Label lblE;
         private System.Windows.Forms.Label lblD;
@@ -599,6 +593,9 @@
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.Label label23;
         private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.ProgressBar pbTime;
+        private System.Windows.Forms.Label lblState;
+        private System.Windows.Forms.Timer tmrCheckForSnaps;
     }
 }
 

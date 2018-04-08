@@ -125,13 +125,9 @@ namespace Snap_chat
             {
                 writer = new WaveFileWriter(outputFilePath, waveIn.WaveFormat);
                 waveIn.StartRecording();
-                btnRecord.Enabled = false;
-                btnStop.Enabled = true;
             }
             else if (e.KeyCode == Keys.E)
             {
-                btnRecord.Enabled = true;
-                btnStop.Enabled = false;
                 waveIn.StopRecording();
             }
         }
