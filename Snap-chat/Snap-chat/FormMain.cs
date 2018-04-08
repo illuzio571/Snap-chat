@@ -32,6 +32,7 @@ namespace Snap_chat
         int selectedGroup = 0;
         int snaps = 0;
         bool isClosing = false;
+        bool canSnap = false;
         
         public frmMain()
         {
@@ -441,6 +442,36 @@ namespace Snap_chat
             lblMessage.Text = message;
             lblChars.Text = message.Length.ToString();
             lblCharLimit.Text = "/ " + MAX_CHARACTERS.ToString();
+
+            if (pbTime.Value < pbTime.Maximum) {
+                pbTime.Value++;
+            }
+            else
+            {
+                if (!canSnap)
+                {
+                    canSnap = true;
+                    lblAlert.ForeColor = Color.Red;
+                    lblAlert.Text = "WAIT!";
+                }
+                else
+                {
+                    canSnap = false;
+                    lblAlert.ForeColor = Color.Green;
+                    lblAlert.Text = "SNAP!";
+                }
+                pbTime.Value = 0;
+            }
+        }
+
+        private void btnStart_Click(object sender, EventArgs e)
+        {
+            canSnap = true;
+            tmrCheckForSnaps.Start();
+            lblAlert.ForeColor = Color.Green;
+            lblAlert.Text = "SNAP!";
+            lblAlert.Visible = true;
+            btnStart.Visible = false;
         }
     }
 }
