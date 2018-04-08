@@ -398,14 +398,14 @@ namespace Snap_chat
 
             foreach (Label label in labels)
             {
-                //Set the index to whatever the label's tag is
-                int index = (int)(label.Tag);
-
                 //If that index is the one we want, print
+                int index = Convert.ToInt32(label.Tag);
                 if (index == letterIndex)
                 {
                     //Print out a letter
                     selectedLetter = label.Text.ToLower();
+                    selectedGroup = 0;
+                    Console.WriteLine(selectedLetter);
                     break;
                 }
             }
