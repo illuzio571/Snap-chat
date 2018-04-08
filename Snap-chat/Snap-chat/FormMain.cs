@@ -233,7 +233,34 @@ namespace Snap_chat
         #region Select Letter
         private void SelectLetterGroup(int snaps)
         {
-
+            if (snaps <= 5)
+            {
+                selectedGroup = snaps;
+            }
+            else
+            {
+                selectedGroup = 5;
+            }
+            Panel selectedPanel;
+            switch (selectedGroup)
+            {
+                case 1:
+                    selectedPanel = pnl1;
+                    break;
+                case 2:
+                    selectedPanel = pnl2;
+                    break;
+                case 3:
+                    selectedPanel = pnl3;
+                    break;
+                case 4:
+                    selectedPanel = pnl4;
+                    break;
+                case 5:
+                    selectedPanel = pnl5;
+                    break;
+            }
+            selectedPanel.Left = 0;
         }
         #endregion
 
