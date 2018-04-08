@@ -19,7 +19,7 @@ namespace Snap_chat
     {
         const int AUDIO_BUFFER = 200;
         const int TOLERANCE = 4500;
-        const int MAX_CHARACTERS = 274;
+        const int MAX_CHARACTERS = 255;
 
         WaveInEvent waveIn = new WaveInEvent();
         WaveFileWriter writer = null;
@@ -122,7 +122,6 @@ namespace Snap_chat
         {
             if (hardReset)
             {
-                message = "";
                 canSnap = false;
                 tmrCheckForSnaps.Stop();
                 pbTime.Invoke((MethodInvoker)delegate
@@ -132,18 +131,6 @@ namespace Snap_chat
                     pbTime.Maximum = 50;
                     lblAlert.Visible = false;
                     btnStart.Visible = true;
-                });
-
-                lblMessage.Invoke((MethodInvoker)delegate
-                {
-                    // Running on the UI thread
-                    lblMessage.Text = message;
-                });
-
-                lblChars.Invoke((MethodInvoker)delegate
-                {
-                    // Running on the UI thread
-                    lblChars.Text = message.Length.ToString();
                 });
                 SetPanelVisiblity(true);
             }
@@ -183,7 +170,7 @@ namespace Snap_chat
 
         private void tmrCheckForSnaps_Tick(object sender, EventArgs e)
         {
-            lblMessage.Text = message;
+            txtMessage.Text = message;
             lblChars.Text = message.Length.ToString();
             lblCharLimit.Text = "/ " + MAX_CHARACTERS.ToString();
 
@@ -364,6 +351,12 @@ namespace Snap_chat
         private async void btnTweet_Click(object sender, EventArgs e)
         {
             await SendTweet(message);
+        }
+
+        private void txtMessage_TextChanged(object sender, EventArgs e)
+        {
+            txtMessage.SelectionStart = txtMessage.Text.Length;
+            message = txtMessage.Text;
         }
         #endregion
 

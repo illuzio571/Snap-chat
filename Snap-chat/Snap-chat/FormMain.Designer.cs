@@ -61,7 +61,6 @@
             this.label23 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.lblMessage = new System.Windows.Forms.Label();
             this.lblChars = new System.Windows.Forms.Label();
             this.lblCharLimit = new System.Windows.Forms.Label();
             this.btnRestart = new System.Windows.Forms.Button();
@@ -70,6 +69,7 @@
             this.pbTime = new System.Windows.Forms.ProgressBar();
             this.lblAlert = new System.Windows.Forms.Label();
             this.tmrCheckForSnaps = new System.Windows.Forms.Timer(this.components);
+            this.txtMessage = new System.Windows.Forms.TextBox();
             this.pnl1.SuspendLayout();
             this.pnl2.SuspendLayout();
             this.pnl3.SuspendLayout();
@@ -439,16 +439,6 @@
             this.label1.TabIndex = 1;
             this.label1.Text = "Message:";
             // 
-            // lblMessage
-            // 
-            this.lblMessage.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblMessage.Location = new System.Drawing.Point(16, 360);
-            this.lblMessage.Name = "lblMessage";
-            this.lblMessage.Size = new System.Drawing.Size(710, 76);
-            this.lblMessage.TabIndex = 2;
-            this.lblMessage.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            // 
             // lblChars
             // 
             this.lblChars.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -467,7 +457,7 @@
             this.lblCharLimit.Name = "lblCharLimit";
             this.lblCharLimit.Size = new System.Drawing.Size(40, 20);
             this.lblCharLimit.TabIndex = 3;
-            this.lblCharLimit.Text = "/280";
+            this.lblCharLimit.Text = "/255";
             // 
             // btnRestart
             // 
@@ -525,11 +515,22 @@
             // 
             this.tmrCheckForSnaps.Tick += new System.EventHandler(this.tmrCheckForSnaps_Tick);
             // 
+            // txtMessage
+            // 
+            this.txtMessage.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtMessage.Location = new System.Drawing.Point(12, 360);
+            this.txtMessage.Multiline = true;
+            this.txtMessage.Name = "txtMessage";
+            this.txtMessage.Size = new System.Drawing.Size(713, 76);
+            this.txtMessage.TabIndex = 9;
+            this.txtMessage.TextChanged += new System.EventHandler(this.txtMessage_TextChanged);
+            // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(750, 486);
+            this.Controls.Add(this.txtMessage);
             this.Controls.Add(this.lblAlert);
             this.Controls.Add(this.pbTime);
             this.Controls.Add(this.btnStart);
@@ -537,7 +538,6 @@
             this.Controls.Add(this.btnRestart);
             this.Controls.Add(this.lblCharLimit);
             this.Controls.Add(this.lblChars);
-            this.Controls.Add(this.lblMessage);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.pnl5);
             this.Controls.Add(this.pnl4);
@@ -570,7 +570,6 @@
         private System.Windows.Forms.Panel pnl4;
         private System.Windows.Forms.Panel pnl5;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label lblMessage;
         private System.Windows.Forms.Label lblChars;
         private System.Windows.Forms.Label lblCharLimit;
         private System.Windows.Forms.Button btnRestart;
@@ -605,6 +604,7 @@
         private System.Windows.Forms.ProgressBar pbTime;
         private System.Windows.Forms.Label lblAlert;
         private System.Windows.Forms.Timer tmrCheckForSnaps;
+        private System.Windows.Forms.TextBox txtMessage;
     }
 }
 
