@@ -16,7 +16,7 @@ namespace Snap_chat
     {
         const int THRESHHOLD = 30000;
         const int AUDIO_BUFFER = 200;
-        const int TOLERANCE = 10000;
+        const int TOLERANCE = 7500;
 
         WaveInEvent waveIn = new WaveInEvent();
         WaveFileWriter writer = null;
@@ -138,10 +138,11 @@ namespace Snap_chat
 
                 List<String> lines = new List<String>();
                 //Loop through each byte in the array from the .wav file
-                for (int i = 1; i < sampleBuffer.Length; i++)
+                for (int i = 3; i < sampleBuffer.Length; i++)
                 {
                     //If byte is bigger than threshhold and has not recently snapped
-                    if ((sampleBuffer[i] - sampleBuffer[i - 1]) > TOLERANCE && !hasRecentlySnapped && sampleBuffer[i] > 0)
+                    int byteAverage = (sampleBuffer[i - 1] + sampleBuffer[i - 2] + sampleBuffer[i - 3]);
+                    if ((sampleBuffer[i] - byteAverage) > TOLERANCE && !hasRecentlySnapped)
                     {
                         hasRecentlySnapped = true;
                         lines.Add(sampleBuffer[i].ToString());
@@ -197,10 +198,11 @@ namespace Snap_chat
 
                 List<String> lines = new List<String>();
                 //Loop through each byte in the array from the .wav file
-                for (int i = 1; i < sampleBuffer.Length; i++)
+                for (int i = 3; i < sampleBuffer.Length; i++)
                 {
                     //If the difference between two bytes is bigger than the tolerance, is positive, and has not recently snapped
-                    if ((sampleBuffer[i] - sampleBuffer[i - 1]) > TOLERANCE && !hasRecentlySnapped && sampleBuffer[i] > 0)
+                    int byteAverage = (sampleBuffer[i - 1] + sampleBuffer[i - 2] + sampleBuffer[i - 3]);
+                    if ((sampleBuffer[i] - byteAverage) > TOLERANCE && !hasRecentlySnapped)
                     {
                         hasRecentlySnapped = true;
                         lines.Add(sampleBuffer[i].ToString() + " - Snapped");
