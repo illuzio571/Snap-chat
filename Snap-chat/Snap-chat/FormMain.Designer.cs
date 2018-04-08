@@ -546,7 +546,6 @@
             this.Name = "frmMain";
             this.Text = "Snap-chat";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyDown);
             this.pnl1.ResumeLayout(false);
             this.pnl1.PerformLayout();
             this.pnl2.ResumeLayout(false);
