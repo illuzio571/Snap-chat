@@ -364,7 +364,7 @@ namespace Snap_chat
                 if (panel != selectedPanel)
                 {
                     
-                    panel.Visible = false;
+                    //panel.Visible = false;
 
                 }
             }
@@ -391,10 +391,12 @@ namespace Snap_chat
 
             foreach (Label label in labels)
             {
-                int index = (int)(label.Tag);
+                int index = Convert.ToInt32(label.Tag);
                 if (index == letterIndex)
                 {
                     selectedLetter = label.Text.ToLower();
+                    selectedGroup = 0;
+                    Console.WriteLine(selectedLetter);
                     break;
                 }
             }
