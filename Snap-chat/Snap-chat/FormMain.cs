@@ -43,7 +43,92 @@ namespace Snap_chat
             WaveIn_RecordingStopped();
         }
 
-        #region Write Files
+        #region WaveIn Functions
+        private void WaveIn_DataAvailable()
+        {
+            waveIn.DataAvailable += (s, a) =>
+            {
+                writer.Write(a.Buffer, 0, a.BytesRecorded);
+                if (writer.Position > waveIn.WaveFormat.AverageBytesPerSecond * 30)
+                {
+                    waveIn.StopRecording();
+                }
+            };
+        }
+
+        private void WaveIn_RecordingStopped()
+        {
+            waveIn.RecordingStopped += (s, a) =>
+            {
+                //Dispose of the WaveFileWriter
+                writer?.Dispose();
+                writer = null;
+                if (isClosing)
+                {
+                    waveIn.Dispose();
+                }
+
+                //Write out logs
+                WriteLogs();
+
+                //Select what letter group we need
+                SelectLetterGroup(snaps);
+
+                snaps = 0;
+            };
+        }
+        #endregion
+
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            isClosing = true;
+            waveIn.StopRecording();
+        }
+
+        #region Record / Stop; Test Functions
+        private void btnRecord_Click(object sender, EventArgs e)
+        {
+            writer = new WaveFileWriter(outputFilePath, waveIn.WaveFormat);
+            waveIn.StartRecording();
+            btnRecord.Enabled = false;
+            btnStop.Enabled = true;
+        }
+
+        private void btnStop_Click(object sender, EventArgs e)
+        {
+            btnRecord.Enabled = true;
+            btnStop.Enabled = false;
+            waveIn.StopRecording();
+        }
+        
+        private void frmMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Q)
+            {
+                writer = new WaveFileWriter(outputFilePath, waveIn.WaveFormat);
+                waveIn.StartRecording();
+                btnRecord.Enabled = false;
+                btnStop.Enabled = true;
+            }
+            else if (e.KeyCode == Keys.E)
+            {
+                btnRecord.Enabled = true;
+                btnStop.Enabled = false;
+                waveIn.StopRecording();
+            }
+        }
+        
+        private void WriteLogs()
+        {
+            WriteLongFile("\\longFile.csv");
+
+            WriteTestFile("\\~testFile.csv");
+
+            WriteTestFileWithSnaps("\\~testFileWithSnaps.csv");
+
+            Console.WriteLine("Number of Snaps: " + snaps);
+        }
+
         private void WriteLongFile(string fileName)
         {
             using (WaveFileReader reader = new WaveFileReader(outputFilePath))
@@ -213,23 +298,6 @@ namespace Snap_chat
         }
         #endregion
 
-        #region Record / Stop Test Functions
-        private void btnRecord_Click(object sender, EventArgs e)
-        {
-            writer = new WaveFileWriter(outputFilePath, waveIn.WaveFormat);
-            waveIn.StartRecording();
-            btnRecord.Enabled = false;
-            btnStop.Enabled = true;
-        }
-
-        private void btnStop_Click(object sender, EventArgs e)
-        {
-            btnRecord.Enabled = true;
-            btnStop.Enabled = false;
-            waveIn.StopRecording();
-        }
-        #endregion
-
         #region Select Letter
         private void SelectLetterGroup(int snaps)
         {
@@ -259,76 +327,19 @@ namespace Snap_chat
                 case 5:
                     selectedPanel = pnl5;
                     break;
+                default:
+                    selectedPanel = null;
+                    break;
             }
-            selectedPanel.Left = 0;
+            if (selectedPanel != null)
+            {
+                selectedPanel.Left = 0;
+            }
+            else
+            {
+                //Error
+            }
         }
         #endregion
-
-        #region WaveIn Functions
-        private void WaveIn_DataAvailable()
-        {
-            waveIn.DataAvailable += (s, a) =>
-            {
-                writer.Write(a.Buffer, 0, a.BytesRecorded);
-                if (writer.Position > waveIn.WaveFormat.AverageBytesPerSecond * 30)
-                {
-                    waveIn.StopRecording();
-                }
-            };
-        }
-
-        private void WaveIn_RecordingStopped()
-        {
-            waveIn.RecordingStopped += (s, a) =>
-            {
-                writer?.Dispose();
-                writer = null;
-                if (isClosing)
-                {
-                    waveIn.Dispose();
-                }
-
-                WriteLogs();
-
-                snaps = 0;
-            };
-        }
-        #endregion
-
-        //TODO: Remove; Temporary Code
-        private void WriteLogs()
-        {
-            WriteLongFile("\\longFile.csv");
-
-            WriteTestFile("\\~testFile.csv");
-
-            WriteTestFileWithSnaps("\\~testFileWithSnaps.csv");
-
-            Console.WriteLine("Number of Snaps: " + snaps);
-        }
-
-        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            isClosing = true;
-            waveIn.StopRecording();
-        }
-
-        //TODO: Remove; Temporary Code
-        private void frmMain_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.KeyCode == Keys.Q)
-            {
-                writer = new WaveFileWriter(outputFilePath, waveIn.WaveFormat);
-                waveIn.StartRecording();
-                btnRecord.Enabled = false;
-                btnStop.Enabled = true;
-            }
-            else if (e.KeyCode == Keys.E)
-            {
-                btnRecord.Enabled = true;
-                btnStop.Enabled = false;
-                waveIn.StopRecording();
-            }
-        }
     }
 }
