@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmMain));
             this.pnl1 = new System.Windows.Forms.Panel();
             this.lblA = new System.Windows.Forms.Label();
             this.lblE = new System.Windows.Forms.Label();
@@ -544,6 +545,7 @@
             this.Controls.Add(this.pnl2);
             this.Controls.Add(this.pnl3);
             this.Controls.Add(this.pnl1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "frmMain";
             this.Text = "Snap-chat";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
