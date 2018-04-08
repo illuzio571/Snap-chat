@@ -17,6 +17,7 @@ namespace Snap_chat
         const int THRESHHOLD = 30000;
         const int AUDIO_BUFFER = 200;
         const int TOLERANCE = 4500;
+        const int MAX_CHARACTERS = 280;
 
         WaveInEvent waveIn = new WaveInEvent();
         WaveFileWriter writer = null;
@@ -108,14 +109,10 @@ namespace Snap_chat
         {
             writer = new WaveFileWriter(outputFilePath, waveIn.WaveFormat);
             waveIn.StartRecording();
-            btnRecord.Enabled = false;
-            btnStop.Enabled = true;
         }
 
         private void btnStop_Click(object sender, EventArgs e)
         {
-            btnRecord.Enabled = true;
-            btnStop.Enabled = false;
             waveIn.StopRecording();
         }
         
