@@ -14,7 +14,6 @@ namespace Snap_chat
 {
     public partial class frmMain : Form
     {
-        
         const int THRESHHOLD = 30000;
         const int AUDIO_BUFFER = 200;
         const int TOLERANCE = 7500;
@@ -26,7 +25,9 @@ namespace Snap_chat
         string outputFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "NAudio");
         string outputFilePath = String.Empty;
 
+        List<Panel> panels = new List<Panel>();
         Panel selectedPanel;
+        string message = "";
         int selectedGroup = 0;
         int snaps = 0;
         bool isClosing = false;
@@ -91,12 +92,13 @@ namespace Snap_chat
                     else
                     {
                         SelectLetter(snaps);
+                        panels = new List<Panel>();
+                        selectedGroup = 0;
+                        selectedPanel = null;
                     }
                 }
 
                 snaps = 0;
-                selectedGroup = 0;
-                selectedPanel = null;
             };
         }
         #endregion
@@ -314,11 +316,31 @@ namespace Snap_chat
         }
         #endregion
 
+        private void SetPanelVisiblity(bool makeVisible)
+        {
+            foreach (Panel panel in panels)
+            {
+                if (panel != selectedPanel)
+                {
+                    panel.Invoke((MethodInvoker)delegate {
+                        // Running on the UI thread
+                        if (makeVisible)
+                        {
+                            panel.Visible = true;
+                        }
+                        else
+                        {
+                            panel.Visible = false;
+                        }
+                    });
+                }
+            }
+        }
+
         #region Select Letter
         private void SelectLetterGroup(int snaps)
         {
             //Grab all the panels on the form for some manipulation
-            List<Panel> panels = new List<Panel>();
             foreach (Control control in this.Controls)
             {
                 if (control.GetType().Equals(typeof(Panel)))
@@ -359,20 +381,8 @@ namespace Snap_chat
                     selectedPanel = null;
                     break;
             }
-            if (selectedPanel == null)
-            {
-                //Group has been selected
-                Console.WriteLine("snaps: " + snaps);
-                Console.WriteLine("SelectedGroup: " + selectedGroup);
-                return;
-            }
-            foreach (Panel panel in panels)
-            {
-                if (panel != selectedPanel)
-                {
-                    panel.Visible = false;
-                }
-            }
+
+            SetPanelVisiblity(false);
         }
 
         private void SelectLetter(int snaps)
@@ -404,8 +414,13 @@ namespace Snap_chat
                 {
                     //Print out a letter
                     selectedLetter = label.Text.ToLower();
-                    selectedGroup = 0;
-                    Console.WriteLine(selectedLetter);
+                    message += selectedLetter;
+
+                    lblMessage.Invoke((MethodInvoker)delegate {
+                        // Running on the UI thread
+                        lblMessage.Text = message;
+                    });
+                    SetPanelVisiblity(true);
                     break;
                 }
             }
