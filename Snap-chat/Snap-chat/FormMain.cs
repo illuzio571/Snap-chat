@@ -25,11 +25,12 @@ namespace Snap_chat
         //Output folder is the Desktop of the user.
         string outputFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "NAudio");
         string outputFilePath = String.Empty;
+
+        Panel selectedPanel;
+        int selectedGroup = 0;
         int snaps = 0;
         bool isClosing = false;
-        int selectedGroup = 0;
-        Panel selectedPanel;
-
+        
         public frmMain()
         {
             InitializeComponent();
@@ -82,6 +83,7 @@ namespace Snap_chat
                 //Select what letter group we need
                 if (snaps > 0)
                 {
+                    //If we haven't selected a group yet
                     if (selectedGroup == 0)
                     {
                         SelectLetterGroup(snaps);
@@ -93,6 +95,8 @@ namespace Snap_chat
                 }
 
                 snaps = 0;
+                selectedGroup = 0;
+                selectedPanel = null;
             };
         }
         #endregion
@@ -313,6 +317,7 @@ namespace Snap_chat
         #region Select Letter
         private void SelectLetterGroup(int snaps)
         {
+            //Grab all the panels on the form for some manipulation
             List<Panel> panels = new List<Panel>();
             foreach (Control control in this.Controls)
             {
@@ -323,6 +328,7 @@ namespace Snap_chat
                 }
             }
 
+            //If the snaps are less than 5 (the max), make the group == snaps; If they go over, just default to 5
             if (snaps <= 5)
             {
                 selectedGroup = snaps;
@@ -355,6 +361,7 @@ namespace Snap_chat
             }
             if (selectedPanel == null)
             {
+                //Group has been selected
                 Console.WriteLine("snaps: " + snaps);
                 Console.WriteLine("SelectedGroup: " + selectedGroup);
                 return;
@@ -363,18 +370,18 @@ namespace Snap_chat
             {
                 if (panel != selectedPanel)
                 {
-                    
                     panel.Visible = false;
-
                 }
             }
         }
 
         private void SelectLetter(int snaps)
         {
+            //Grab a list of all the labels in a group for manipulation
             List<Label> labels = new List<Label>();
-            int letterIndex;
             String selectedLetter;
+            int letterIndex;
+
             foreach (Label label in selectedPanel.Controls)
             {
                 labels.Add(label);
@@ -391,9 +398,13 @@ namespace Snap_chat
 
             foreach (Label label in labels)
             {
+                //Set the index to whatever the label's tag is
                 int index = (int)(label.Tag);
+
+                //If that index is the one we want, print
                 if (index == letterIndex)
                 {
+                    //Print out a letter
                     selectedLetter = label.Text.ToLower();
                     break;
                 }
