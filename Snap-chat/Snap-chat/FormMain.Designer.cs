@@ -128,6 +128,7 @@
             this.btnRestart.Name = "btnRestart";
             this.btnRestart.Size = new System.Drawing.Size(75, 23);
             this.btnRestart.TabIndex = 4;
+            this.btnRestart.TabStop = false;
             this.btnRestart.Text = "&Reset";
             this.btnRestart.UseVisualStyleBackColor = true;
             // 
@@ -137,6 +138,7 @@
             this.btnSpecialChars.Name = "btnSpecialChars";
             this.btnSpecialChars.Size = new System.Drawing.Size(115, 23);
             this.btnSpecialChars.TabIndex = 4;
+            this.btnSpecialChars.TabStop = false;
             this.btnSpecialChars.Text = "&Special Characters";
             this.btnSpecialChars.UseVisualStyleBackColor = true;
             // 
@@ -146,6 +148,7 @@
             this.btnTweet.Name = "btnTweet";
             this.btnTweet.Size = new System.Drawing.Size(75, 23);
             this.btnTweet.TabIndex = 4;
+            this.btnTweet.TabStop = false;
             this.btnTweet.Text = "&Tweet";
             this.btnTweet.UseVisualStyleBackColor = true;
             // 
@@ -155,16 +158,19 @@
             this.btnRecord.Name = "btnRecord";
             this.btnRecord.Size = new System.Drawing.Size(129, 32);
             this.btnRecord.TabIndex = 5;
+            this.btnRecord.TabStop = false;
             this.btnRecord.Text = "RECORD";
             this.btnRecord.UseVisualStyleBackColor = true;
             this.btnRecord.Click += new System.EventHandler(this.btnRecord_Click);
             // 
             // btnStop
             // 
+            this.btnStop.Enabled = false;
             this.btnStop.Location = new System.Drawing.Point(250, 423);
             this.btnStop.Name = "btnStop";
             this.btnStop.Size = new System.Drawing.Size(144, 32);
             this.btnStop.TabIndex = 6;
+            this.btnStop.TabStop = false;
             this.btnStop.Text = "STOP";
             this.btnStop.UseVisualStyleBackColor = true;
             this.btnStop.Click += new System.EventHandler(this.btnStop_Click);
@@ -191,6 +197,7 @@
             this.Name = "frmMain";
             this.Text = "Snap-chat";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.frmMain_FormClosing);
+            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.frmMain_KeyDown);
             this.ResumeLayout(false);
             this.PerformLayout();
 

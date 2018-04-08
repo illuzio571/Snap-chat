@@ -14,13 +14,16 @@ namespace Snap_chat
 {
     public partial class frmMain : Form
     {
-        const int THRESHHOLD = 32000;
+        const int THRESHHOLD = 30000;
+        const int AUDIO_BUFFER = 200;
+
         WaveInEvent waveIn = new WaveInEvent();
         WaveFileWriter writer = null;
 
         //Output folder is the Desktop of the user.
         string outputFolder = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), "NAudio");
         string outputFilePath = String.Empty;
+        int snaps = 0;
         bool isClosing = false;
 
         public frmMain()
@@ -56,9 +59,14 @@ namespace Snap_chat
                 WriteTestFile("\\~testFile.csv");
 
                 WriteTestFileWithSnaps("\\~testFileWithSnaps.csv");
+
+                MessageBox.Show("Number of Snaps: " + snaps);
+
+                snaps = 0;
             };
         }
 
+        #region Write Files
         private void WriteLongFile(string fileName)
         {
             using (WaveFileReader reader = new WaveFileReader(outputFilePath))
@@ -78,7 +86,7 @@ namespace Snap_chat
                 {
                     foreach (string line in lines)
                     {
-                        file.WriteLine(line + " - Snapped");
+                        file.WriteLine(line);
                     }
                 }
             };
@@ -104,7 +112,7 @@ namespace Snap_chat
                     if (sampleBuffer[i] > THRESHHOLD && !hasRecentlySnapped)
                     {
                         hasRecentlySnapped = true;
-                        lines.Add(sampleBuffer[i].ToString() + " - Snapped");
+                        lines.Add(sampleBuffer[i].ToString());
                     }
 
                     if (hasRecentlySnapped)
@@ -150,6 +158,7 @@ namespace Snap_chat
                     {
                         hasRecentlySnapped = true;
                         lines.Add(sampleBuffer[i].ToString() + " - Snapped");
+                        snaps++;
                     }
                     else
                     {
@@ -177,6 +186,7 @@ namespace Snap_chat
                 }
             }
         }
+        #endregion
 
         #region Record / Stop Test Functions
         private void btnRecord_Click(object sender, EventArgs e)
@@ -189,6 +199,7 @@ namespace Snap_chat
 
         private void btnStop_Click(object sender, EventArgs e)
         {
+            btnRecord.Enabled = true;
             btnStop.Enabled = false;
             waveIn.StopRecording();
         }
@@ -198,6 +209,23 @@ namespace Snap_chat
         {
             isClosing = true;
             waveIn.StopRecording();
+        }
+
+        private void frmMain_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Q)
+            {
+                writer = new WaveFileWriter(outputFilePath, waveIn.WaveFormat);
+                waveIn.StartRecording();
+                btnRecord.Enabled = false;
+                btnStop.Enabled = true;
+            }
+            else if (e.KeyCode == Keys.E)
+            {
+                btnRecord.Enabled = true;
+                btnStop.Enabled = false;
+                waveIn.StopRecording();
+            }
         }
     }
 }
