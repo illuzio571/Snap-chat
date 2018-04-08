@@ -43,6 +43,12 @@ namespace Snap_chat
             WaveIn_RecordingStopped();
         }
 
+        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            isClosing = true;
+            waveIn.StopRecording();
+        }
+
         #region WaveIn Functions
         private void WaveIn_DataAvailable()
         {
@@ -78,12 +84,6 @@ namespace Snap_chat
             };
         }
         #endregion
-
-        private void frmMain_FormClosing(object sender, FormClosingEventArgs e)
-        {
-            isClosing = true;
-            waveIn.StopRecording();
-        }
 
         #region Record / Stop; Test Functions
         private void btnRecord_Click(object sender, EventArgs e)
