@@ -88,6 +88,25 @@ namespace Snap_chat
             }
         }
 
+        private void StartListeningForSnaps()
+        {
+            canSnap = true;
+            lblAlert.ForeColor = Color.Green;
+            lblAlert.Text = "SNAP!";
+            pbTime.Maximum = 50;
+            writer = new WaveFileWriter(outputFilePath, waveIn.WaveFormat);
+            waveIn.StartRecording();
+        }
+
+        private void StopListeningForSnaps()
+        {
+            canSnap = false;
+            lblAlert.ForeColor = Color.Red;
+            lblAlert.Text = "WAIT!";
+            pbTime.Maximum = 10;
+            waveIn.StopRecording();
+        }
+
         #region Form Events
         public frmMain()
         {
@@ -174,22 +193,13 @@ namespace Snap_chat
             }
             else
             {
-                if (!canSnap)
+                if (canSnap)
                 {
-                    canSnap = true;
-                    lblAlert.ForeColor = Color.Green;
-                    lblAlert.Text = "SNAP!";
-                    pbTime.Maximum = 50;
-                    writer = new WaveFileWriter(outputFilePath, waveIn.WaveFormat);
-                    waveIn.StartRecording();
+                    StopListeningForSnaps();
                 }
                 else
                 {
-                    canSnap = false;
-                    lblAlert.ForeColor = Color.Red;
-                    lblAlert.Text = "WAIT!";
-                    pbTime.Maximum = 10;
-                    waveIn.StopRecording();
+                    StartListeningForSnaps();
                 }
                 pbTime.Value = 0;
             }
@@ -197,10 +207,8 @@ namespace Snap_chat
 
         private void btnStart_Click(object sender, EventArgs e)
         {
-            canSnap = true;
+            StartListeningForSnaps();
             tmrCheckForSnaps.Start();
-            lblAlert.ForeColor = Color.Green;
-            lblAlert.Text = "SNAP!";
             lblAlert.Visible = true;
             btnStart.Visible = false;
         }
