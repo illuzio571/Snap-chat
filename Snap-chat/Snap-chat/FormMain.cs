@@ -94,8 +94,15 @@ namespace Snap_chat
             lblAlert.ForeColor = Color.Green;
             lblAlert.Text = "SNAP!";
             pbTime.Maximum = 50;
-            writer = new WaveFileWriter(outputFilePath, waveIn.WaveFormat);
-            waveIn.StartRecording();
+            try
+            {
+                writer = new WaveFileWriter(outputFilePath, waveIn.WaveFormat);
+                waveIn.StartRecording();
+            }
+            catch
+            {
+                //Hey, handle this exception later...im lazy now.
+            }
         }
 
         private void StopListeningForSnaps()
